@@ -1,8 +1,11 @@
 package Xorn;
+# ABSTRACT: a framework for linewise terminal apps
+
 use v5.20.0;
 use warnings;
 use experimental qw(postderef signatures);
 use utf8;
+
 
 sub _terminfo {
   require Term::Terminfo;
