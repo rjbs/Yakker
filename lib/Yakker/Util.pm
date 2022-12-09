@@ -1,4 +1,4 @@
-package Xorn::Util;
+package Yakker::Util;
 use v5.20.0;
 use warnings;
 
@@ -43,12 +43,12 @@ sub errsay {
 }
 
 sub colored ($style, $text) {
-  my $codes = ref $style ? $style : $Xorn::STYLE{$style};
+  my $codes = ref $style ? $style : $Yakker::STYLE{$style};
 
   my $color = Term::ANSIColor::color(@$codes);
 
   my $reset = Term::ANSIColor::color('reset')
-            . Term::ANSIColor::color(@{ $Xorn::STYLE{default} });
+            . Term::ANSIColor::color(@{ $Yakker::STYLE{default} });
 
   return "$color$text$reset";
 }
@@ -61,12 +61,12 @@ sub colored ($style, $text) {
 sub colored_prompt {
   my ($style, $text) = @_;
 
-  my $codes = ref $style ? $style : $Xorn::STYLE{$style};
+  my $codes = ref $style ? $style : $Yakker::STYLE{$style};
 
   my $color = Term::ANSIColor::color(@$codes);
 
   my $reset = Term::ANSIColor::color('reset')
-            . Term::ANSIColor::color(@{ $Xorn::STYLE{default} });
+            . Term::ANSIColor::color(@{ $Yakker::STYLE{default} });
 
   return "\001$color\002$text\001$reset\002";
 }
@@ -137,10 +137,10 @@ sub activityloop (@stack) {
     } catch {
       my $error = $_;
 
-      my $jump = $error->$_isa('Xorn::LoopControl::Continue');
-      @stack = () if $error->$_isa('Xorn::LoopControl::Empty');
-      pop @stack if $error->$_isa('Xorn::LoopControl::Pop');
-      push @stack, $error->activity if $error->$_isa('Xorn::LoopControl::Push');
+      my $jump = $error->$_isa('Yakker::LoopControl::Continue');
+      @stack = () if $error->$_isa('Yakker::LoopControl::Empty');
+      pop @stack if $error->$_isa('Yakker::LoopControl::Pop');
+      push @stack, $error->activity if $error->$_isa('Yakker::LoopControl::Push');
 
       if ($jump) {
         no warnings 'exiting';
@@ -153,11 +153,11 @@ sub activityloop (@stack) {
 }
 
 sub cmdnext {
-  Xorn::LoopControl::Continue->new->throw;
+  Yakker::LoopControl::Continue->new->throw;
 }
 
 sub cmdlast {
-  Xorn::LoopControl::Pop->new->throw;
+  Yakker::LoopControl::Pop->new->throw;
 }
 
 sub cmderr {
@@ -166,42 +166,42 @@ sub cmderr {
 }
 
 sub cmdmissing {
-  say colored($Xorn::STYLE{missing}, $_[0]);
+  say colored($Yakker::STYLE{missing}, $_[0]);
   cmdnext;
 }
 
-package Xorn::LoopControl::Continue {
+package Yakker::LoopControl::Continue {
   use Moo;
   sub throw { die $_[0]; }
   no Moo;
 }
 
-package Xorn::LoopControl::Pop {
+package Yakker::LoopControl::Pop {
   use Moo;
-  extends 'Xorn::LoopControl::Continue';
+  extends 'Yakker::LoopControl::Continue';
   no Moo;
 }
 
-package Xorn::LoopControl::Push {
+package Yakker::LoopControl::Push {
   use Moo;
-  extends 'Xorn::LoopControl::Continue';
+  extends 'Yakker::LoopControl::Continue';
   has activity => (is => 'ro', required => 1);
   no Moo;
 }
 
-package Xorn::LoopControl::Swap {
+package Yakker::LoopControl::Swap {
   use Moo;
   # Note that Moo has a bug in how ->new works, so the order of the extends()
   # here is significant.  Really these should be roles, probably, but that was
   # a slight increase in complexity *except for this bug* so here we are!
   # -- rjbs, 2020-03-07
-  extends 'Xorn::LoopControl::Push', 'Xorn::LoopControl::Pop';
+  extends 'Yakker::LoopControl::Push', 'Yakker::LoopControl::Pop';
   no Moo;
 }
 
-package Xorn::LoopControl::Empty {
+package Yakker::LoopControl::Empty {
   use Moo;
-  extends 'Xorn::LoopControl::Continue';
+  extends 'Yakker::LoopControl::Continue';
   no Moo;
 }
 

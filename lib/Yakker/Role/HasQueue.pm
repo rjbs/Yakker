@@ -1,11 +1,11 @@
-package Xorn::Role::HasQueue;
+package Yakker::Role::HasQueue;
 use v5.20.0;
 
 use Moo::Role;
 
 use experimental qw(postderef signatures);
 
-use Xorn::Util qw(
+use Yakker::Util qw(
   cmderr
   cmdnext
 

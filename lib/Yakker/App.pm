@@ -1,4 +1,4 @@
-package Xorn::App;
+package Yakker::App;
 use v5.20.0;
 use Moo::Role;
 

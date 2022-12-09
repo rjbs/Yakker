@@ -1,4 +1,4 @@
-package Xorn::Commando::Completionist;
+package Yakker::Commando::Completionist;
 
 use v5.20.0;
 use warnings;
@@ -29,8 +29,8 @@ sub array_completion ($arg) {
   }
 
   if (ref $arg eq 'CODE') {
-    return sub ($activity, $text, @) {
-      my $arrayref = $arg->(@_);
+    return sub ($activity, $text, @rest) {
+      my $arrayref = $arg->($activity, $text, @rest);
       my @opts = grep { /^\Q$text/ } @$arrayref;
       sub { shift @opts };
     }

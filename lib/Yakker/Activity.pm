@@ -1,4 +1,4 @@
-package Xorn::Activity;
+package Yakker::Activity;
 use v5.20.0;
 use Moo::Role;
 

@@ -1,4 +1,4 @@
-package Xorn::Commando;
+package Yakker::Commando;
 use Moo;
 use v5.20.0;
 use warnings;
@@ -6,10 +6,10 @@ use warnings;
 use experimental qw(postderef signatures);
 use utf8;
 
-use Xorn::Util qw(cmdnext cmderr colored matesay prefixes);
+use Yakker::Util qw(cmdnext cmderr colored matesay prefixes);
 use List::Util qw(max);
 
-use Xorn::Commando::Completionist;
+use Yakker::Commando::Completionist;
 
 use Sub::Exporter -setup => {
   groups => {
@@ -20,7 +20,7 @@ use Sub::Exporter -setup => {
 sub _build_commando_group {
   my ($class, $group, $arg) = @_;
 
-  my $Commando = Xorn::Commando->new({
+  my $Commando = Yakker::Commando->new({
     help_sections => $arg->{help_sections},
   });
 
@@ -33,14 +33,14 @@ sub _build_commando_group {
 my %DEFAULT_COMMAND;
 $DEFAULT_COMMAND{debug} = [
   completion => [
-    Xorn::Commando::Completionist::array_completion([ qw(on off) ])
+    Yakker::Commando::Completionist::array_completion([ qw(on off) ])
   ],
   help    => {
     args    => 'ON/OFF',
     summary => "turn the debugging pane off or on",
   },
   sub ($self, $cmd, $rest) {
-    my $enabled = Xorn->debugging_is_enabled;
+    my $enabled = Yakker->debugging_is_enabled;
 
     unless (length $rest) {
       matesay sprintf "Debugging is %s.", $enabled ? 'on' : 'off';
@@ -52,7 +52,7 @@ $DEFAULT_COMMAND{debug} = [
         matesay "Debugging is already on, though!";
         cmdnext;
       }
-      if (Xorn->enable_debugging) {
+      if (Yakker->enable_debugging) {
         matesay "Debugging enabled!";
         cmdnext;
       }
@@ -64,7 +64,7 @@ $DEFAULT_COMMAND{debug} = [
         matesay "Debugging is already off, though!";
         cmdnext;
       }
-      Xorn->disable_debugging;
+      Yakker->disable_debugging;
       matesay "Debugging disabled!";
       cmdnext;
     }
@@ -146,7 +146,7 @@ sub print_help_for ($self, $str) {
 
 $DEFAULT_COMMAND{'h.elp'} = [
   completion => [
-    Xorn::Commando::Completionist::array_completion(sub ($activity, @) {
+    Yakker::Commando::Completionist::array_completion(sub ($activity, @) {
       [ $activity->commando->all_command_names ]
     })
   ],
@@ -225,7 +225,7 @@ sub add_command ($self, $name, @rest) {
   };
 
   if ($command->{completion} && ref $command->{completion} eq 'ARRAY') {
-    $command->{completion} = Xorn::Commando::Completionist::pos_completion(
+    $command->{completion} = Yakker::Commando::Completionist::pos_completion(
       $command->{completion}->@*
     );
   }
@@ -310,11 +310,11 @@ sub command_for ($self, $cmd) {
 # The "completer" property in a command definition is just a little mind-bendy,
 # party because of how we drive Term::ReadLine::Gnu's tab completion.
 #
-# We expect our Xorn activity to register a rl_attempted_completion_function
+# We expect our Yakker activity to register a rl_attempted_completion_function
 # (RACF) that consults the Commando and either (a) match a command if editing
 # arg0 or (b) look up the command currently being entered using command_for.
 # That comand might provide a completer, C.  If so, RACF calls C, passing the
-# Xorn activity and ($activity, $text, $line_buffer, $start, $end) — which
+# Yakker activity and ($activity, $text, $line_buffer, $start, $end) — which
 # is what you'd get in a generic RACF, except we've prepended $activity.
 #
 # C is expected to return a completion iterator, CI.  RACF will install CI as

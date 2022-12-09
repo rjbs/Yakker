@@ -1,4 +1,4 @@
-package Xorn::Debug;
+package Yakker::Debug;
 
 use v5.20.0;
 use warnings;
@@ -7,7 +7,7 @@ use experimental qw(signatures);
 
 use Digest::MD5 qw(md5);
 
-my %color_for = ('Xorn::Debug' => 'bold bright_black');
+my %color_for = ('Yakker::Debug' => 'bold bright_black');
 
 sub str_color ($str) {
   # I know, I know, this is ludicrous, but guess what?  It's my Sunday and I
@@ -88,7 +88,7 @@ sub enable_debugging {
 
   $PANE_KILLER = sub { __PACKAGE__->_kill_tmux_pane($new_pane_id) };
   state $guard = Scope::Guard->new($PANE_KILLER);
-  Xorn->register_sigint_handler('pane-killer' => $PANE_KILLER);
+  Yakker->register_sigint_handler('pane-killer' => $PANE_KILLER);
 
   $SIG{__WARN__} = sub {
     my $package = caller;

@@ -1,9 +1,9 @@
-package Xorn::Role::Readline;
+package Yakker::Role::Readline;
 use v5.20.0;
 
 use Moo::Role;
 
-with 'Xorn::Activity';
+with 'Yakker::Activity';
 
 use experimental qw(postderef signatures);
 use utf8;
@@ -26,7 +26,7 @@ sub build_readline ($self) {
   $term->add_defun(
     'issue-marker',
     sub {
-      return unless Xorn->debugging_is_enabled;
+      return unless Yakker->debugging_is_enabled;
       warn "marker line requested\n";
     },
     ord "\cF",
@@ -35,10 +35,10 @@ sub build_readline ($self) {
   $term->add_defun(
     'toggle-clim8-debugging',
     sub {
-      if (Xorn->debugging_is_enabled) {
-        Xorn->disable_debugging;
+      if (Yakker->debugging_is_enabled) {
+        Yakker->disable_debugging;
       } else {
-        return if Xorn->enable_debugging;
+        return if Yakker->enable_debugging;
         warn "Couldn't start debugging.  (You have to run under tmux.)\n";
       }
     },

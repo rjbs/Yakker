@@ -1,4 +1,4 @@
-package Xorn::Role::Queue;
+package Yakker::Role::Queue;
 use v5.20.0;
 
 use Moo::Role;

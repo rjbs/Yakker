@@ -1,4 +1,4 @@
-package Xorn;
+package Yakker;
 # ABSTRACT: a framework for linewise terminal apps
 
 use v5.20.0;
@@ -15,16 +15,16 @@ sub _terminfo {
 
 my $DEBUGGING = 0;
 sub enable_debugging {
-  require Xorn::Debug;
+  require Yakker::Debug;
   return if $DEBUGGING;
-  my $ok = Xorn::Debug->enable_debugging;
+  my $ok = Yakker::Debug->enable_debugging;
   $DEBUGGING = $ok;
   return $ok;
 }
 
 sub disable_debugging {
   return unless $DEBUGGING;
-  Xorn::Debug->disable_debugging;
+  Yakker::Debug->disable_debugging;
   $DEBUGGING = 0;
 }
 
@@ -196,18 +196,19 @@ sub set_theme ($self, $theme_name) {
 }
 
 my @SPINNERS = (
-  ["🛌", "🔥", "🛌"],
-  ["🔥", "💸", "🔥"],
-  ["🤜", "🏉", "🤛"],
-  ["🌎", "📧", "🌏"],
-  ["🌭", "🥨", "🌭"],
-  ["🐈", "🧶", "🐈"],
-  ["🤠", "🍺", "🤠"],
-  ["🧛", "🧄", "🧛"],
-  ["🏝", "🌊", "🏝" ],
-  ["🌀", "⛑", "🌀"],
-  ["😭", "😐", "😄"],
-  ["😷", "🦠", "😷"],
+#   ["🛌", "🔥", "🛌"],
+#   ["🔥", "💸", "🔥"],
+#   ["🤜", "🏉", "🤛"],
+#   ["🌎", "📧", "🌏"],
+#   ["🌭", "🥨", "🌭"],
+#   ["🐈", "🧶", "🐈"],
+#   ["🤠", "🍺", "🤠"],
+#   ["🧛", "🧄", "🧛"],
+#   ["🏝", "🌊", "🏝" ],
+#   ["🌀", "⛑", "🌀"],
+#   ["😭", "😐", "😄"],
+#   ["😷", "🦠", "😷"],
+  ["👨🏻‍🎓", "🕷", "📆"],
 );
 
 sub wait_with_spinner {
@@ -247,11 +248,11 @@ sub wait_with_spinner {
 
   $timer->start;
 
-  Xorn->loop->add($timer);
+  Yakker->loop->add($timer);
 
   $future->get;
 
-  Xorn->loop->remove($timer);
+  Yakker->loop->remove($timer);
 
   print $show_cursor if $hide_cursor && $show_cursor;
 

@@ -1,11 +1,11 @@
-package Xorn::HTTP;
+package Yakker::HTTP;
 use Moo;
 
 use v5.20.0;
 use experimental qw(postderef signatures);
 use utf8;
 
-use Xorn;
+use Yakker;
 use DBI;
 use DBD::SQLite;
 use Time::HiRes ();
@@ -77,7 +77,7 @@ sub _agent ($self) {
 
   # Is this a bad idea?  What if there's a request in flight?  Well, shouldn't
   # take >3m.  Again, crap but probably actually just fine. -- rjbs, 2020-04-14
-  Xorn->loop->remove($cache->[1]) if $cache;
+  Yakker->loop->remove($cache->[1]) if $cache;
 
   require Net::Async::HTTP;
   $cache = [
@@ -85,7 +85,7 @@ sub _agent ($self) {
     Net::Async::HTTP->new,
   ];
 
-  Xorn->loop->add($cache->[1]);
+  Yakker->loop->add($cache->[1]);
   $self->_agent_cache($cache);
   return $cache->[1];
 }
@@ -113,7 +113,7 @@ sub do_request {
     return $f;
   });
 
-  return Xorn->wait_with_spinner($req_f, { label => $label });
+  return Yakker->wait_with_spinner($req_f, { label => $label });
 }
 
 no Moo;
