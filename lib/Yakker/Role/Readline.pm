@@ -11,15 +11,18 @@ use utf8;
 use Encode qw(decode);
 use Term::ReadLine;
 
-has readline => (
-  is    => 'ro',
-  lazy  => 1,
-  init_arg  => undef,
-  builder   => 'build_readline',
-);
+sub readline ($self) {
+  state $initialized_app = $self->app->name;
 
-sub build_readline ($self) {
-  my $term = Term::ReadLine->new($self->app->name);
+  if ($self->app->name ne $initialized_app) {
+    warn "Woah!  You have two Yakker apps using ReadLine at once.  This may get weird.\n";
+  }
+
+  state $term;
+
+  return $term if $term;
+
+  $term = Term::ReadLine->new($self->app->name);
 
   $term->Attribs->ornaments(0);
 
@@ -59,6 +62,13 @@ sub get_input ($self, $prompt) {
   $input =~ s/\s+\z//g;
 
   return $input;
+}
+
+sub _complete_from_array ($self, $array_ref) {
+  my @array = @$array_ref;
+  $self->readline->Attribs->{completion_entry_function} = sub { shift @array; };
+
+  return undef;
 }
 
 no Moo::Role;
