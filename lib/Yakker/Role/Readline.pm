@@ -51,7 +51,34 @@ sub readline ($self) {
   return $term;
 }
 
+has _commando_completion_function => (
+  is    => 'ro',
+  lazy  => 1,
+  init_arg => undef,
+  default  => sub ($self) {
+    return undef unless $self->can('commando');
+
+    my $specials = $self->can('completion_specials')
+                 ? $self->completion_specials
+                 : [];
+
+    $self->commando->_build_completion_function($self, {
+      @$specials ? (specials => $specials) : (),
+    });
+  },
+);
+
 sub get_input ($self, $prompt) {
+  my $Attribs = $self->readline->Attribs;
+
+  my %override = (
+    attempted_completion_function   => $self->_commando_completion_function,
+    completer_word_break_characters => qq[ \t\n],
+    completion_entry_function       => sub { undef },
+  );
+
+  local $Attribs->@{ keys %override } = values %override;
+
   my $input = $self->readline->readline($prompt);
 
   return undef unless defined $input;
