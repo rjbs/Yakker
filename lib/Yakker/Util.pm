@@ -10,25 +10,33 @@ use Safe::Isa;
 use Term::ANSIColor ();
 use Try::Tiny;
 
-use Sub::Exporter -setup => [ qw(
-  activityloop
+use Sub::Exporter -setup => {
+  groups  => {
+    cmdctl  => [ qw( cmderr cmdmissing cmdnext cmdlast ) ],
+    output  => [ qw( matesay errsay okaysay ) ],
+  },
+  exports => [
+    qw(
+      activityloop
 
-  cmderr
-  cmdmissing
-  cmdnext
-  cmdlast
+      cmderr
+      cmdmissing
+      cmdnext
+      cmdlast
 
-  matesay
-  errsay
-  okaysay
+      matesay
+      errsay
+      okaysay
 
-  colored
-  colored_prompt
-  edit_in_editor
-  prefixes
-  prefix_re
-  tfu
-) ];
+      colored
+      colored_prompt
+      edit_in_editor
+      prefixes
+      prefix_re
+      tfu
+    )
+  ]
+};
 
 sub matesay {
   say join q{ }, "🤖", colored('ping', $_[0]);
