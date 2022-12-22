@@ -1,4 +1,4 @@
-package Yakker::Activity;
+package Yakker::Role::Activity;
 use v5.20.0;
 use Moo::Role;
 
