@@ -6,7 +6,7 @@ use experimental qw(postderef signatures);
 
 use Yakker::Util qw(cmderr cmdlast cmdnext);
 
-with 'Yakker::Role::Activity', 'Yakker::Role::Readline';
+with 'Yakker::Role::Activity::Readline';
 
 requires 'commando';
 requires 'prompt_string';

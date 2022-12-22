@@ -1,9 +1,9 @@
-package Yakker::Role::Readline;
+package Yakker::Role::Activity::Readline;
 use v5.20.0;
 
 use Moo::Role;
 
-with 'Yakker::Activity';
+with 'Yakker::Role::Activity';
 
 use experimental qw(postderef signatures);
 use utf8;
