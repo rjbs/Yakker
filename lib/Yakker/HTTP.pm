@@ -14,7 +14,7 @@ use IO::Async::Loop;
 
 sub new_with_timing_db {
   my ($class, $dbname) = @_;
-  $dbname //= 'clim8-timing.sqlite';
+  $dbname //= 'yakker-timing.sqlite';
 
   my $new = ! -e $dbname;
 
@@ -94,7 +94,7 @@ sub do_request {
   my ($self, %rest) = @_;
 
   my $http  = $self->_agent;
-  my $label = delete $rest{m8_label};
+  my $label = delete $rest{yakker_label};
 
   my $start = Time::HiRes::time;
 

@@ -36,7 +36,7 @@ sub readline ($self) {
   );
 
   $term->add_defun(
-    'toggle-clim8-debugging',
+    'toggle-yakker-debugging',
     sub {
       if (Yakker->debugging_is_enabled) {
         Yakker->disable_debugging;
