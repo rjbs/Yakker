@@ -223,7 +223,7 @@ sub wait_with_spinner {
       state $dir = 1;
       state $str = $M . (q{ } x 39);
 
-      print "\r$L $str $R";
+      print "\33[2K\r$L $str $R";
       print " $arg->{label}" if length $arg->{label};
 
       substr $str, $pos, 1, " ";
