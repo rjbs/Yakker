@@ -52,21 +52,21 @@ sub deregister_sigint_handler ($class, $name) {
 }
 
 my %THEME_TEMPLATE = (
-    default => undef,
-    bold    => undef,
-    header  => undef,
-    ping    => undef,
-    help1   => undef,
-    help2   => undef,
-    bumper  => undef,
-    marker  => undef,
-    ol_bul  => undef,
+  default => undef,
+  bold    => undef,
+  header  => undef,
+  ping    => undef,
+  help1   => undef,
+  help2   => undef,
+  bumper  => undef,
+  marker  => undef,
+  ol_bul  => undef,
 
-    dim     => undef,
-    callout => undef,
-    error   => undef,
-    okay    => undef,
-    missing => undef,
+  dim     => undef,
+  callout => undef,
+  error   => undef,
+  okay    => undef,
+  missing => undef,
 );
 
 my %THEME = (
